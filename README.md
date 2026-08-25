@@ -1,5 +1,7 @@
 # A Convergent Moment Hierarchy for the Variance of Weighted Spatial-Mean Estimators under Missing-at-Random Sampling
 
+[![DOI](https://zenodo.org/badge/1346177850.svg)](https://doi.org/10.5281/zenodo.22097270)
+
 Code and data accompanying the paper:
 > Seshadri, A. K. and Pal Majumder, A. (2026). A convergent moment hierarchy for the variance of weighted spatial-mean estimators under missing-at-random sampling.
 
