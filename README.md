@@ -107,7 +107,7 @@ If you use this code, please cite both the paper and this archive:
   author    = {Seshadri, Ashwin K. and Pal Majumder, Abhishek},
   year      = {2026},
   publisher = {Zenodo},
-  doi       = {10.5281/zenodo.XXXXXXX}
+  doi       = {10.5281/zenodo.22097271}
 }
 ```
 
