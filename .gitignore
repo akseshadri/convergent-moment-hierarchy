@@ -1,0 +1,13 @@
+# MATLAB temporaries
+*.asv
+*.m~
+*.autosave
+slprj/
+octave-workspace
+
+# macOS / editors
+.DS_Store
+Thumbs.db
+
+# Do NOT ignore the data files (they are part of the archive):
+# data/indiadat.mat, data/indialatlon.mat are tracked intentionally.

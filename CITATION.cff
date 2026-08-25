@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the article and this archive."
+title: "A convergent moment hierarchy for the variance of weighted spatial-mean estimators under missing-at-random sampling (code)"
+version: 1.0.0
+date-released: 2026-08-25
+license: MIT
+authors:
+  - family-names: Seshadri
+    given-names: Ashwin K.
+    # orcid: "https://orcid.org/0000-0000-0000-0000"
+  - family-names: "Pal Majumder"
+    given-names: Abhishek
+    # orcid: "https://orcid.org/0000-0000-0000-0000"
+keywords:
+  - ratio estimator
+  - missing at random
+  - spatial statistics
+  - variance approximation
+  - moment hierarchy
+  - MATLAB
+# doi: "10.5281/zenodo.XXXXXXX"   # replace with the DOI Zenodo assigns
+preferred-citation:
+  type: article
+  title: "A convergent moment hierarchy for the variance of weighted spatial-mean estimators under missing-at-random sampling"
+  authors:
+    - family-names: Seshadri
+      given-names: Ashwin K.
+    - family-names: "Pal Majumder"
+      given-names: Abhishek
+  year: 2026
