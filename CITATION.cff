@@ -18,7 +18,7 @@ keywords:
   - variance approximation
   - moment hierarchy
   - MATLAB
-# doi: "10.5281/zenodo.XXXXXXX"   # replace with the DOI Zenodo assigns
+# doi: "10.5281/zenodo.22097271"
 preferred-citation:
   type: article
   title: "A convergent moment hierarchy for the variance of weighted spatial-mean estimators under missing-at-random sampling"
