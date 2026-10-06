@@ -1,8 +1,20 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite both the article and this archive."
-title: "A convergent moment hierarchy for the variance of weighted spatial-mean estimators under missing-at-random sampling (code)"
-version: 1.0.0
-date-released: 2026-08-25
+title: "Weighted spatial averages with missing observations: Convergence and accuracy of delta-method variance approximations (code)"
+abstract: >-
+  MATLAB code and data accompanying the paper "Weighted spatial averages with
+  missing observations: Convergence and accuracy of delta-method variance
+  approximations". When observations are missing at random, a weighted spatial
+  average is a ratio of two random quantities, and its variance is usually
+  approximated by truncating a Taylor series of the ratio (the delta method).
+  The code computes a two-index sequence of such approximations, the exact
+  variance for uniform weights (as a single sum over the number of reporting
+  sites), and the exact variance for small networks with arbitrary weights (by
+  enumerating all reporting patterns). It reproduces every figure and table in
+  the paper using a homogeneous benchmark, small synthetic networks, and India
+  Meteorological Department (IMD) 1° gridded daily rainfall.
+version: 2.0.0
+date-released: 2026-10-06
 license: MIT
 authors:
   - family-names: Seshadri
@@ -12,16 +24,16 @@ authors:
     given-names: Abhishek
     # orcid: "https://orcid.org/0000-0000-0000-0000"
 keywords:
+  - spatial averages
+  - missing completely at random
   - ratio estimator
-  - missing at random
-  - spatial statistics
-  - variance approximation
-  - moment hierarchy
+  - delta method
+  - rainfall
   - MATLAB
-# doi: "10.5281/zenodo.22097271"
+# doi: "10.5281/zenodo.22097270"   # concept DOI (resolves to the latest version)
 preferred-citation:
   type: article
-  title: "A convergent moment hierarchy for the variance of weighted spatial-mean estimators under missing-at-random sampling"
+  title: "Weighted spatial averages with missing observations: Convergence and accuracy of delta-method variance approximations"
   authors:
     - family-names: Seshadri
       given-names: Ashwin K.

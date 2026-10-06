@@ -1,115 +1,113 @@
-# A Convergent Moment Hierarchy for the Variance of Weighted Spatial-Mean Estimators under Missing-at-Random Sampling
+# Weighted Spatial Averages with Missing Observations: Convergence and Accuracy of Delta-Method Variance Approximations
 
 [![DOI](https://zenodo.org/badge/1346177850.svg)](https://doi.org/10.5281/zenodo.22097270)
 
 Code and data accompanying the paper:
-> Seshadri, A. K. and Pal Majumder, A. (2026). A convergent moment hierarchy for the variance of weighted spatial-mean estimators under missing-at-random sampling.
+
+> Seshadri, A. K. and Pal Majumder, A. (2026). Weighted spatial averages with missing observations: Convergence and accuracy of delta-method variance approximations. Submitted to *Spatial Statistics*.
+
+This paper follows:
+
+> Seshadri, A. K. (2018). Statistics of spatial averages and optimal averaging in the presence of missing data. *Spatial Statistics*, 25, 1–21. [doi:10.1016/j.spasta.2018.04.002](https://doi.org/10.1016/j.spasta.2018.04.002) — code at [akseshadri/spatial-averages-missing-data](https://github.com/akseshadri/spatial-averages-missing-data)
 
 ## Overview
 
-The paper studies the weighted spatial-mean ratio estimator `rhat = R/S`, with
-`R = sum_i beta_i s_i r_i` and `S = sum_i beta_i s_i`, when sites report at
-random (`s_i ~ Bernoulli(alpha)`, missing-at-random). Because the denominator
-is random, the estimator has no tractable closed-form variance; the paper
-expands `R/S` about `(E R, E S)` with the delta method and builds a hierarchy of
-closed-form variance approximations `mu2^{(n1,n2)}`, indexed by a coupling order
-`n1` and a denominator order `n2`. A single dimensionless quantity, the relative
-denominator fluctuation `rho = sqrt(Var(S))/E[S]`, controls the truncation
-accuracy. This repository contains the closed forms, an exact
-(enumeration-based) variance check, the Monte-Carlo validation, and the scripts
-that reproduce every figure, applied to India Meteorological Department (IMD)
-gridded daily rainfall.
+When observations are missing at random, a weighted spatial average is a ratio of two random quantities, the weighted sum of the reported values and the total weight of the reporting sites. Its variance is usually approximated by truncating a Taylor series of the ratio (the delta method). The variance estimator of Seshadri (2018) is the first-order member of a two-index sequence of such approximations. This paper examines when the series converges, how accurate a given truncation is, and whether higher-order terms help. The code computes the approximations, the exact variance for uniform weights (as a single sum over the number of reporting sites), and the exact variance for small networks with arbitrary weights (by enumerating all reporting patterns). The numerical examples use a homogeneous benchmark, small synthetic networks, and the daily gridded rainfall over India from the India Meteorological Department (IMD).
 
 ## Repository Structure
 
 ```
 ├── README.md
 ├── LICENSE
-├── CITATION.cff
 ├── .gitignore
+├── CITATION.cff
 ├── data/
-│   ├── indiadat.mat          # 1° × 1° gridded daily rainfall (1901–2011, 357 locations)
-│   ├── indialatlon.mat       # Latitude/longitude coordinates for the 1° grid
-│   └── latlonmat.txt         # Same coordinates as plain text (for reference)
+│   └── indiadat.mat          # 1° × 1° gridded daily rainfall (1901–2011, 357 locations)
+├── figures/                  # EPS output of the figure scripts
 └── src/
-    ├── run_all_figures.m         # Master driver: runs the three section scripts
-    ├── PFigs_Section2.m          # Figures 1–2: rho governs convergence and accuracy
-    ├── PFigs_Section3.m          # Figures 3–6: closed forms and their limits
-    ├── PFigs_SI.m                # Figures S1–S2: source decomposition (SI)
-    ├── truncations_scenarioI.m   # Uniform-weight (Scenario I) closed forms
-    ├── truncations_general.m     # Arbitrary-weight closed forms and rho
-    ├── ratio_var_exact_uniform.m # Exact Var(rhat) for uniform weights (no Monte Carlo)
-    ├── mc_truevar.m              # Monte-Carlo moments of rhat under MAR
-    ├── apply_fig_style.m         # Consistent figure style
-    └── panel_label.m             # Bold (a)/(b)/(c) panel letters
+    ├── PFig1.m               # Figure 1: error scaling and denominator concentration
+    ├── PFig2.m               # Figure 2: validation with the IMD rainfall field
+    ├── PFig3.m               # Figure 3: common shift of the field
+    ├── PFig4.m               # Figure 4: stress tests
+    ├── PFigS1.m              # Figure S1: homogeneous two-parameter scaling
+    ├── PFigS2.m              # Figure S2: exact check of the mixed-moment formulas
+    ├── PFigS3.m              # Figure S3: term-by-term decomposition for the IMD field
+    ├── PTables.m             # Values in Table 4 and Table S3
+    ├── loadimd.m             # Helper: site means and covariance of the IMD field
+    ├── varexact.m            # Helper: exact variance for uniform weights
+    ├── truncvar.m            # Helper: variance approximation mu^(n1,n2) for uniform weights
+    ├── enumvar.m             # Helper: exact variance and approximations by enumeration (small N)
+    └── mixedmom.m            # Helper: closed forms of the mixed moments mu12, mu21, kappa
 ```
-
-The figure scripts do not write files; each opens its results as MATLAB figure
-windows.
 
 ## Requirements
 
-- **MATLAB** R2016b or later (uses `yyaxis` and `histogram`).
-- **Statistics and Machine Learning Toolbox** (for `binornd`, `binopdf`).
-- **Parallel Computing Toolbox** is optional: `mc_truevar` uses `parfor`, which
-  runs serially if no pool is available.
+- **MATLAB** (R2016b or later). No toolboxes are required.
+- The scripts also run in **GNU Octave**.
 
 ## Usage
 
-1. Open MATLAB and set the working directory to the `src/` folder:
-
+1. Set the working directory to the `src/` folder:
    ```matlab
-   cd('/path/to/this-repository/src')
+   cd('/path/to/repository/src')
    ```
 
-2. Reproduce all figures at once:
-
+2. Run any script directly. For example, to reproduce Figure 2:
    ```matlab
-   run_all_figures
+   PFig2
    ```
 
-   or run any section script on its own, for example:
+   Each script loads the required data from `../data/`, calls the helper functions, and writes an EPS file to `../figures/`. `PTables` prints its values to the command window.
 
-   ```matlab
-   PFigs_Section3
-   ```
+### Script Descriptions
 
-   Each script loads the rainfall data from `../data/` and calls the shared
-   functions. The Monte-Carlo ensemble size `Kensemb` defaults to `1e5`; reduce
-   it for quicker previews.
+| Script | Paper item | Description |
+|--------|-----------|-------------|
+| `PFig1.m` | Fig. 1 | Homogeneous benchmark: errors of the (0,0) and (0,1) approximations against ρ and N, and concentration of the reporting denominator |
+| `PFig2.m` | Fig. 2 | IMD field, uniform weights: exact variance and four approximations, with errors relative to the total variance and to the contribution of missing data |
+| `PFig3.m` | Fig. 3 | IMD field with a common shift added to all sites: only the (0,1) approximation is unaffected, like the exact variance |
+| `PFig4.m` | Fig. 4 | Stress tests: strong spatial correlation, small networks, and concentrated weights |
+| `PFigS1.m` | Fig. S1 | Homogeneous benchmark with both availability and network size varied |
+| `PFigS2.m` | Fig. S2 | Closed-form mixed moments compared with exact enumeration for a small correlated network |
+| `PFigS3.m` | Fig. S3 | Term-by-term decomposition of the low-order approximations for the IMD field |
+| `PTables.m` | Table 4, Table S3 | Convergence at fixed network size, and errors along the shift-invariant truncations |
 
-### Figure Descriptions
+All calculations are exact averages over the reporting process for the given field moments; no Monte Carlo simulation is used.
 
-| Script            | Paper Figure | Description                                                                                       |
-| ----------------- | ------------ | ------------------------------------------------------------------------------------------------- |
-| `PFigs_Section2.m`| Figs. 1–2    | `rho`-collapse, sharp `O(rho^2)`/`O(rho^4)` rates, and `1/N` convergence; good-event/rare-event split |
-| `PFigs_Section3.m`| Figs. 3–6    | Monte Carlo vs the four truncations; mixed moments vs theory; source decomposition; stress regimes |
-| `PFigs_SI.m`      | Figs. S1–S2  | Term-by-term source decomposition: raw field and reduced-variance case                            |
+## Data Source
 
-## Data Sources
-
-- **1° × 1° gridded rainfall** (`indiadat.mat`, `indialatlon.mat`): Rajeevan, M., Bhate, J., Kale, J. D., & Lal, B. (2006). High resolution daily gridded rainfall data for the Indian region: Analysis of break and active monsoon spells. *Current Science*, 91, 296–306.
+- **1° × 1° gridded rainfall** (`indiadat.mat`): Rajeevan, M., Bhate, J., Kale, J. D., & Lal, B. (2006). High resolution daily gridded rainfall data for the Indian region: Analysis of break and active monsoon spells. *Current Science*, 91, 296–306.
 
 The rainfall data are provided by the India Meteorological Department (IMD) and
 are redistributed here for reproducibility; please observe IMD's terms of use.
 
 ## Citation
 
-If you use this code, please cite both the paper and this archive:
+If you use this code, please cite the paper, this archive, and Seshadri (2018):
 
 ```bibtex
 @article{SeshadriPalMajumder2026,
-  title   = {A convergent moment hierarchy for the variance of weighted spatial-mean estimators under missing-at-random sampling},
+  title   = {Weighted spatial averages with missing observations: Convergence and accuracy of delta-method variance approximations},
   author  = {Seshadri, Ashwin K. and Pal Majumder, Abhishek},
   year    = {2026}
 }
 
 @software{SeshadriPalMajumder2026code,
-  title     = {A convergent moment hierarchy for the variance of weighted spatial-mean estimators under missing-at-random sampling (code)},
+  title     = {Weighted spatial averages with missing observations: Convergence and accuracy of delta-method variance approximations (code)},
   author    = {Seshadri, Ashwin K. and Pal Majumder, Abhishek},
   year      = {2026},
   publisher = {Zenodo},
-  doi       = {10.5281/zenodo.22097271}
+  doi       = {10.5281/zenodo.22097270}
+}
+
+@article{Seshadri2018,
+  title   = {Statistics of spatial averages and optimal averaging in the presence of missing data},
+  author  = {Seshadri, Ashwin K.},
+  journal = {Spatial Statistics},
+  volume  = {25},
+  pages   = {1--21},
+  year    = {2018},
+  doi     = {10.1016/j.spasta.2018.04.002}
 }
 ```
 
